@@ -142,3 +142,25 @@
 [56539] Maintenance tool restart: false.
 [56542] Warning: QString::arg: Argument missing: Run SQLiteStudio, SQLiteStudio
 [56542] Control script callback "FinishedPageCallback" does not exist.
+************************************* Invoked: Tue Dec 29 11:23:55 2020
+[0] Operations sanity check succeeded.
+[3372] addDownloadable "DbSqliteCipher.7z"
+[3372] addDownloadable "SqlExport.7z"
+[3372] addDownloadable "HtmlExport.7z"
+[3372] addDownloadable "RegExpImport.7z"
+[3372] addDownloadable "qt.7z"
+[3372] addDownloadable "CsvImport.7z"
+[3372] addDownloadable "XmlExport.7z"
+[3372] addDownloadable "DbSqliteWx.7z"
+[3372] addDownloadable "DbAndroid.7z"
+[3372] addDownloadable "CsvExport.7z"
+[3372] addDownloadable "PdfExport.7z"
+[3372] addDownloadable "DbSqlite2.7z"
+[3372] addDownloadable "SqlEnterpriseFormatter.7z"
+[3372] addDownloadable "SqlFormatterSimple.7z"
+[3372] addDownloadable "ConfigMigration.7z"
+[3372] addDownloadable "sqlitestudio.7z"
+[3373] addDownloadable "JsonExport.7z"
+[3373] addDownloadable "ScriptingTcl.7z"
+[3373] addDownloadable "Printing.7z"
+[3373] addDownloadable "MultiEditorImage.7z"
