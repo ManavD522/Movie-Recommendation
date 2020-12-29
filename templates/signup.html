@@ -6,8 +6,11 @@
         <div class="card card-3">
             <div class="card-heading"></div>
             <div class="card-body">
-                <h2 class="title">Log In</h2>
-                <form method="POST" action="/">
+                <h2 class="title">Sign Up</h2>
+                <form method="POST" action="/welcome">
+                    <div class="input-group">
+                        <input class="input--style-3" type="text" placeholder="Username" name="username">
+                    </div>
                     <div class="input-group">
                         <input class="input--style-3" type="email" placeholder="Email" name="email">
                     </div>
@@ -15,10 +18,10 @@
                         <input class="input--style-3" type="password" placeholder="Password" name="password">
                     </div>
                     <div class = "p-t-10">
-                        <button class="p-t-10 btn btn--pill btn--green" type="submit">Log in</button>
+                        <button class="btn btn--pill btn--green" type="submit">Sign in</button>
                     </div>
-                    <a href = "/signup">
-                        <div class="p-t-10 btn btn--pill btn--white" type="submit" style = "margin-top: 2.5rem;" >Sign Up</div>
+                    <a href = "/">
+                        <div class="p-t-10 btn btn--pill btn--white" type="submit" style = "margin-top: 2.5rem;">Log in</div>
                     </a>
                 </form>
             </div>

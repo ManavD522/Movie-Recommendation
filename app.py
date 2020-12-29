@@ -1,35 +1,41 @@
 import sqlite3
-from flask import Flask, url_for, request, render_template, g
+from flask import Flask, url_for, request, render_template
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///users.db"
+db = SQLAlchemy(app)
 
-DATABASE = 'Desktop/Movie-Recommendation/ProjectDB.db'
+class Login(db.Model):
+    email = db.Column(db.String(50), primary_key = True)
+    username = db.Column(db.String(50))
+    password = db.Column(db.String(50), nullable = False)
 
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
-
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+    def __repr__(self):
+        return '<User %r>' % self.email
 
 @app.route('/', methods=['POST','GET'])
 def login():
-    if request.method == 'POST':
-        user = request.form["name"]
-        return redirect(url_for("welcome.html", name = user))
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
-@app.route("/welcome", methods = ["POST", "GET"])
+@app.route('/signup', methods=['POST','GET'])
+def signup():
+    return render_template('signup.html')
+
+@app.route("/welcome", methods = ["POST"])
 def welcome():
-    user = request.form.get('name')
-    return render_template("welcome.html", name=user)
+    email = request.form['email']
+    username = request.form['username']
+    password = request.form['password']
+    new_user = Login(email = email, username = username, password = password)
+
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+        return render_template("welcome.html", username=username)
+    except:
+        return render_template("error.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
