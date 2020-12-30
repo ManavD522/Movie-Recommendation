@@ -1,4 +1,3 @@
-import sqlite3
 from flask import Flask, url_for, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 
@@ -39,3 +38,4 @@ def welcome():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
