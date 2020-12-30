@@ -1,6 +1,7 @@
 from flask import Flask, url_for, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///users.db"
 db = SQLAlchemy(app)
@@ -23,14 +24,15 @@ def signup():
 
 @app.route("/welcome", methods = ["POST"])
 def welcome():
-    email = request.form['email']
-    username = request.form['username']
-    password = request.form['password']
+    email = request.form.get('email')
+    username = request.form.get('username')
+    password = request.form.get('password')
     new_user = Login(email = email, username = username, password = password)
-
+    
     try:
-        db.session.add(new_user)
-        db.session.commit()
+        if("" in [email, username, password]):
+            return render_template("error.html")
+        db.session.add(new_user)    
         return render_template("welcome.html", username=username)
     except:
         return render_template("error.html")
