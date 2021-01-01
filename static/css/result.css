@@ -83,45 +83,60 @@ a {
     color: #FFFFFF;
 }
 
-.input-buttons{
-    margin-top: 4rem;
+.recom-row {
+    margin: 5rem 0;
 }
 
+.recom-field {
+    margin: 0 15rem;
+}
 
-.button-row {
+.ratings {
     display: flex;
-    margin-bottom: 3.5rem;
+    flex-direction: column;
+    margin: 0 2rem;
+    padding-top: 1rem;
 }
 
-.input-btn-pill {
-    width: fit-content;
-    padding: 3rem;
-    height: 6rem;
-    background: #0C0C0C;
-    border: 2px solid #0C0C0C;
-    box-sizing: border-box;
-    border-radius: 50px;
-    margin: 0 3rem;
-    text-align: center;
-}
-
-.input-btn-pill:hover {
-    box-shadow: 10px 10px 25px rgba(74, 243, 203, 0.15), -10px 10px 25px rgba(74, 243, 203, 0.15);
-    transition: box-shadow 0.3s;
-    cursor: pointer;
-}
-
-.input-btn-text {
+.rating-num {
     font-family: Poppins;
     font-style: normal;
     font-weight: 500;
-    font-size: 26px;
-    line-height: 39px;
-    letter-spacing: 0.02em;
-    color: #9A9999;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.065em;
+    color: #F4EC2C;
+
 }
 
-.submit {
+.movie-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-name {    
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 48px;
+    letter-spacing: 0.065em;
+    color: #FFFFFF;
+    margin-bottom: -0.8rem;
+}
+
+.movie-genre {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.065em;
+    color: #656565;
+}
+
+
+.back {
     width: 23rem;
     height: 6rem;
     border: 1px solid #4AF3CB;
@@ -130,7 +145,7 @@ a {
 }
 
 
-.submit-text {
+.back-text {
     font-family: Poppins;
     font-style: normal;
     font-weight: 500;
@@ -140,13 +155,13 @@ a {
     color: #FFFFFF;
 }
 
-.submit:hover {
+.back:hover {
     background-color: #ffffff;
     border: 0;
     transition: background-color 0.3s;
 }
 
-.submit:hover .submit-text{
+.back:hover .back-text{
     color: #049170;
     transition: color 0.3s;
 }

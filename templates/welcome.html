@@ -1,11 +1,90 @@
 {% extends "base.html" %}
 {% block css %} 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
 {% endblock %}
+
 {% block content  %}
-<div >
+<div class = "main_container">
     <a href = "{{ url_for('logout') }}">
-        <button class="p-t-10 btn btn--pill btn--white" type="submit" style = "margin-top: 2.5rem;">Log Out</button>
+        <div class = "logout">
+        <span class = "logout-text">LOG</span><br/><span class = "logout-text">OUT</span>
+        </div>
     </a>
+
+    <div class = "banner">
+        <div class = "heading-container">
+            <span class = "heading">MOVIEBAY</span>
+        </div>
+        <div class = "greeting-container">
+            <span class = "greeting">Welcome, <span style="font-weight: bold; letter-spacing: 0.07em;">{{ user }}</span></span>
+        </div>
+    </div>
+
+    <hr class = "seperator"/>
+
+    <div>
+        <div class =  "align-center" style = "margin-top: 4rem;">
+            <p class = "basic-text">Select 5 movies to get Recommendations...</p>
+        </div>
+
+        <div class = "input-buttons align-center" style="flex-direction: column;">
+            <div class = "button-row">
+                <div class = "input-btn-pill align-center">
+                    <span class="input-btn-text">IRON MAN III</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;" />
+                </div>
+                <div class = "input-btn-pill align-center">
+                    <span class="input-btn-text">SPEED</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;" />
+                </div>
+                <div class = "input-btn-pill align-center">
+                    <span class="input-btn-text">CHRONICLE OF THE NARNIA</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;" />
+                </div>
+                <div class = "input-btn-pill align-center">
+                    <span class="input-btn-text">TRANSFORMERS</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;" />
+                </div>
+            </div>
+
+            <div class = "button-row">
+                <div class = "input-btn-pill align-center">
+                    <span class="input-btn-text">THE NUN</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;" />
+                </div>
+                <div class = "input-btn-pill align-center">
+                    <span class="input-btn-text">THE AVENGERS</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;" />
+                </div>
+                <div class = "input-btn-pill align-center">
+                    <span class="input-btn-text">MIDNIGHT SUN</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;"/>
+                </div> 
+            </div>
+
+            <div class = "button-row">
+                <div class = "input-btn-pill align-center">
+                    <span class="input-btn-text">HARRY POTTER</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;"/>
+                </div>
+                <div class = "input-btn-pill align-center">
+                    <span class="input-btn-text">21 JUMPY STREET</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class = "align-center" style="margin: 3rem 0;">
+        <div class = "submit align-center">
+            <span class = "submit-text">EXPLORE</span>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block scriptFooter %}
+  <footer>
+    <script type="text/javascript" src = "{{ url_for('static', filename='js/home-page-script.js') }}"></script>
+  </footer>
 {% endblock %}

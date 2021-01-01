@@ -1,3 +1,4 @@
+import warnings
 from flask import Flask, url_for, request, redirect, render_template
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -6,6 +7,8 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user 
+
+warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "thisisasecretkey"
@@ -18,12 +21,12 @@ login_manager.login_view = "login"
 
 class Login(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(50), unique = True)
+    email = db.Column(db.String(50))
     username = db.Column(db.String(15), unique=True)
     password = db.Column(db.String(80), nullable = False)
 
     def __repr__(self):
-        return '<User %r>' % self.email
+        return '<User %r>' % self.username
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -58,7 +61,7 @@ def signup():
     
     if form.validate_on_submit():
         secure_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = Login(email = form.email.data, username = form.email.data, password = secure_password)
+        new_user = Login(email = form.email.data, username = form.username.data, password = secure_password)
         try: 
             db.session.add(new_user)
             db.session.commit()
@@ -81,6 +84,10 @@ def welcome():
 def logout():
     logout_user()
     return redirect(url_for("signup"))
+
+@app.route("/result")
+def result():
+    return render_template("result.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

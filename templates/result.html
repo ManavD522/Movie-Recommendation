@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block css %} 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}" />
+{% endblock %}
+
+{% block content  %}
+<div class = "main_container">
+    <a href = "{{ url_for('logout') }}">
+        <div class = "logout">
+        <span class = "logout-text">LOG</span><br/><span class = "logout-text">OUT</span>
+        </div>
+    </a>
+
+    <div class = "banner">
+        <div class = "heading-container">
+            <span class = "heading">MOVIEBAY</span>
+        </div>
+        <div class = "greeting-container">
+            <span class = "greeting">Welcome, <span style="font-weight: bold; letter-spacing: 0.07em;">Manav</span></span>
+        </div>
+    </div>
+
+    <hr class = "seperator"/>
+
+    <div>
+        <div class =  "align-center" style = "margin-top: 4rem;">
+            <p class = "basic-text">Based on your preference...</p>
+        </div>
+    </div>
+
+    <div>
+        {% for i in range(3) %}
+        <div class = "recom-row align-center">
+            {% for i in range(3) %}
+            <div class = "recom-field align-center">
+                <div class = "ratings">
+                    <img src = "/static/assets/star.svg" class = "star" />
+                    <span class = "rating-num">4.3</span>
+                </div>
+                <div class = "movie-info">
+                    <span class = "movie-name">Movie</span>
+                    <span class = "movie-genre">GENRE 1</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class = "align-center" style="margin: 3rem 0;">
+        <div class = "back align-center">
+            <span class = "back-text">GO BACK</span>
+        </div>
+    </div>
+{% endblock %}
