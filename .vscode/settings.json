@@ -3,5 +3,10 @@
     "python.linting.flake8Enabled": false,
     "python.linting.enabled": true,
     "python.linting.mypyEnabled": false,
-    "python.linting.pylintArgs": ["--load-plugins", "pylint_flask_sqlalchemy", "pylint_flask"]
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_flask_sqlalchemy",
+        "pylint_flask"
+    ],
+    "python.pythonPath": "venv/bin/python3.6"
 }

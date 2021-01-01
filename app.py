@@ -40,8 +40,6 @@ class SignupForm(FlaskForm):
 
 @app.route('/', methods=['POST','GET'])
 def login():
-    db.create_all()
-    db.session.commit()
     form = LoginForm()
     if form.validate_on_submit():
         user = Login.query.filter_by(email=form.email.data).first()
@@ -61,9 +59,13 @@ def signup():
     if form.validate_on_submit():
         secure_password = generate_password_hash(form.password.data, method='sha256')
         new_user = Login(email = form.email.data, username = form.email.data, password = secure_password)
-        db.session.add(new_user)
-        db.session.commit()
-        return '<h1>New user has  been created!</h1>'
+        try: 
+            db.session.add(new_user)
+            db.session.commit()
+        except:
+            pass
+        return redirect(url_for('welcome'))
+        # return '<h1>New user has  been created!</h1>'
 
     if request.method == "GET":
         return render_template('signup.html', form = form)

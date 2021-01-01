@@ -9,19 +9,6 @@
             <div class="card-body">
                 <h2 class="title">Log In</h2>
                 <form method="POST" action="/">
-                    <!--<div class="input-group">
-                        <input class="input--style-3" type="email" placeholder="Email" name="email">
-                    </div>
-                    <div class="input-group">
-                        <input class="input--style-3" type="password" placeholder="Password" name="password">
-                    </div>
-                    <div class = "p-t-10">
-                        <button class="p-t-10 btn btn--pill btn--green" type="submit">Log in</button>
-                    </div>
-                    <a href = "/signup">
-                        <div class="p-t-10 btn btn--pill btn--white" type="submit" style = "margin-top: 2.5rem;" >Sign Up</div>
-                    </a>
-                </form> -->
                 {{ form.hidden_tag() }}
                 <div class="input-group">
                     {{ wtf.form_field(form.email, class ="input--style-3", type="email", placeholder="Email") }}
