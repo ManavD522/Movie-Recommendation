@@ -1,14 +1,11 @@
-<html>
-    <head>
-        <title>
-            Welcome Page
-        </title>
-    </head>
-
-    <body>
-        <h1>
-            Welcome {{ user }}!
-        </h1>
-        <a href= "{{ url_for('logout') }}""><button>logout</button></a>
-    </body>
-</html>
+{% extends "base.html" %}
+{% block css %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+{% endblock %}
+{% block content  %}
+<div >
+    <a href = "{{ url_for('logout') }}">
+        <button class="p-t-10 btn btn--pill btn--white" type="submit" style = "margin-top: 2.5rem;">Log Out</button>
+    </a>
+</div>
+{% endblock %}
