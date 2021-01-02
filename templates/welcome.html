@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block css %} 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"></script>
 {% endblock %}
 
 {% block content  %}
@@ -29,45 +31,45 @@
 
         <div class = "input-buttons align-center" style="flex-direction: column;">
             <div class = "button-row">
-                <div class = "input-btn-pill align-center">
+                <div class = "input-btn-pill align-center" id="i1">
                     <span class="input-btn-text">IRON MAN III</span>
                     <input type="checkbox" name = "movie[]" style="display:none;" />
                 </div>
-                <div class = "input-btn-pill align-center">
+                <div class = "input-btn-pill align-center" id="i2">
                     <span class="input-btn-text">SPEED</span>
                     <input type="checkbox" name = "movie[]" style="display:none;" />
                 </div>
-                <div class = "input-btn-pill align-center">
+                <div class = "input-btn-pill align-center" id="i3">
                     <span class="input-btn-text">CHRONICLE OF THE NARNIA</span>
                     <input type="checkbox" name = "movie[]" style="display:none;" />
                 </div>
-                <div class = "input-btn-pill align-center">
+                <div class = "input-btn-pill align-center" id="i4">
                     <span class="input-btn-text">TRANSFORMERS</span>
                     <input type="checkbox" name = "movie[]" style="display:none;" />
                 </div>
             </div>
 
             <div class = "button-row">
-                <div class = "input-btn-pill align-center">
+                <div class = "input-btn-pill align-center" id="i5">
                     <span class="input-btn-text">THE NUN</span>
                     <input type="checkbox" name = "movie[]" style="display:none;" />
                 </div>
-                <div class = "input-btn-pill align-center">
+                <div class = "input-btn-pill align-center" id="i6">
                     <span class="input-btn-text">THE AVENGERS</span>
                     <input type="checkbox" name = "movie[]" style="display:none;" />
                 </div>
-                <div class = "input-btn-pill align-center">
+                <div class = "input-btn-pill align-center" id="i7">
                     <span class="input-btn-text">MIDNIGHT SUN</span>
                     <input type="checkbox" name = "movie[]" style="display:none;"/>
                 </div> 
             </div>
 
             <div class = "button-row">
-                <div class = "input-btn-pill align-center">
+                <div class = "input-btn-pill align-center" id="i8">
                     <span class="input-btn-text">HARRY POTTER</span>
                     <input type="checkbox" name = "movie[]" style="display:none;"/>
                 </div>
-                <div class = "input-btn-pill align-center">
+                <div class = "input-btn-pill align-center" id="i9">
                     <span class="input-btn-text">21 JUMPY STREET</span>
                     <input type="checkbox" name = "movie[]" style="display:none;"/>
                 </div>
