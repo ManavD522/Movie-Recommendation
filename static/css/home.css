@@ -77,7 +77,7 @@ a {
 .basic-text {
     font-family: Poppins;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 200;
     font-size: 26px;
     line-height: 39px;
     color: #FFFFFF;
@@ -90,19 +90,31 @@ a {
 
 .button-row {
     display: flex;
-    margin-bottom: 3.5rem;
+    margin-bottom: 2.5rem;
 }
 
-.input-btn-pill {
+#input-btn {
+    display: flex;
+    cursor: pointer;
     width: fit-content;
-    padding: 3rem;
-    height: 6rem;
-    background: #0C0C0C;
-    border: 2px solid #0C0C0C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 3rem;
+    height: 5rem;
     box-sizing: border-box;
     border-radius: 50px;
-    margin: 0 3rem;
+    margin: 0 1.5rem;
     text-align: center;
+}
+
+.input-btn-pill-unchecked {
+    background: #0C0C0C;
+}
+
+.input-btn-pill-checked {
+    background: #eeeeee;
+    box-shadow: 10px 10px 25px rgba(74, 243, 203, 0.15), -10px 10px 25px rgba(74, 243, 203, 0.15);;
 }
 
 .input-btn-pill:hover {
@@ -115,10 +127,19 @@ a {
     font-family: Poppins;
     font-style: normal;
     font-weight: 500;
-    font-size: 26px;
+    font-size: 16px;
     line-height: 39px;
     letter-spacing: 0.02em;
     color: #9A9999;
+}
+
+.validate {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    margin: 5px;
+    color: rgba(255, 255, 255, 0.36);
 }
 
 .submit {
@@ -128,7 +149,6 @@ a {
     padding-left: 1rem;
     cursor: pointer;
 }
-
 
 .submit-text {
     font-family: Poppins;

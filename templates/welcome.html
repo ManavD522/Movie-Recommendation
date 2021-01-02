@@ -26,59 +26,29 @@
 
     <div>
         <div class =  "align-center" style = "margin-top: 4rem;">
-            <p class = "basic-text">Select 5 movies to get Recommendations...</p>
+            <p class = "basic-text">More movies, better the recommendation. . .</p>
         </div>
 
         <div class = "input-buttons align-center" style="flex-direction: column;">
+            {% set index = namespace(value=0) %}
+            {% for i in range(4) %}
             <div class = "button-row">
-                <div class = "input-btn-pill align-center" id="i1">
-                    <span class="input-btn-text">IRON MAN III</span>
-                    <input type="checkbox" name = "movie[]" style="display:none;" />
+                {% for j in range(6) %}
+                <div class = "input-btn-pill-unchecked" id = "input-btn">
+                    <span class="input-btn-text">{{ movies[index.value] }}</span>
+                    <input type="checkbox" name = "movie[]" style="display:none;" value="{{ mid[index.value] }}"/>
+                    <p style="display: none;"></p>
                 </div>
-                <div class = "input-btn-pill align-center" id="i2">
-                    <span class="input-btn-text">SPEED</span>
-                    <input type="checkbox" name = "movie[]" style="display:none;" />
-                </div>
-                <div class = "input-btn-pill align-center" id="i3">
-                    <span class="input-btn-text">CHRONICLE OF THE NARNIA</span>
-                    <input type="checkbox" name = "movie[]" style="display:none;" />
-                </div>
-                <div class = "input-btn-pill align-center" id="i4">
-                    <span class="input-btn-text">TRANSFORMERS</span>
-                    <input type="checkbox" name = "movie[]" style="display:none;" />
-                </div>
+                {% set index.value = index.value + 1 %}
+                {% endfor %}
             </div>
-
-            <div class = "button-row">
-                <div class = "input-btn-pill align-center" id="i5">
-                    <span class="input-btn-text">THE NUN</span>
-                    <input type="checkbox" name = "movie[]" style="display:none;" />
-                </div>
-                <div class = "input-btn-pill align-center" id="i6">
-                    <span class="input-btn-text">THE AVENGERS</span>
-                    <input type="checkbox" name = "movie[]" style="display:none;" />
-                </div>
-                <div class = "input-btn-pill align-center" id="i7">
-                    <span class="input-btn-text">MIDNIGHT SUN</span>
-                    <input type="checkbox" name = "movie[]" style="display:none;"/>
-                </div> 
-            </div>
-
-            <div class = "button-row">
-                <div class = "input-btn-pill align-center" id="i8">
-                    <span class="input-btn-text">HARRY POTTER</span>
-                    <input type="checkbox" name = "movie[]" style="display:none;"/>
-                </div>
-                <div class = "input-btn-pill align-center" id="i9">
-                    <span class="input-btn-text">21 JUMPY STREET</span>
-                    <input type="checkbox" name = "movie[]" style="display:none;"/>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
-    <div class = "align-center" style="margin: 3rem 0;">
-        <div class = "submit align-center">
+    <div class = "align-center" style=" flex-direction: column;">
+        <span style = "display: none;" class = "validate">*select 8-10 movies.</span>
+        <div class = "submit align-center">            
             <span class = "submit-text">EXPLORE</span>
         </div>
     </div>

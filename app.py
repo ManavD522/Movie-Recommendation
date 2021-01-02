@@ -1,4 +1,5 @@
 import warnings
+import json
 from flask import Flask, url_for, request, redirect, render_template
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -18,6 +19,9 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+input_movies = ["TERMINATOR 3", "BAD BOYS II", "CHRONICLES OF THE NARNIA", "S.W.A.T.", "35 UP", "JOHNY ENGLISH", "KUNG FU PANDA", "PULP FICTION", "HARRY POTTER", "BABY'S DAY OUT", "COBRA", "THE PRESTIGE", "HAPPT FEET", "DELHI BELLY", "CARS 2", "THE SMURFS", "THE AVENGERS", "ENGLISH VINGLISH", "TAKEN", "PARANORMAL ACTIVITY", "WOLVERINE", "LONE RANGER", "THE HOBBIT", "FINAL DESTINATION"]
+movie_id = [6537, 6548, 41566, 6595, 26712, 6550, 59784, 296, 4896, 5096, 6800, 48780, 49274, 88069, 87876, 88356, 122912, 99636, 96861, 97701, 103772, 103384, 106489, 71252]
 
 class Login(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -74,10 +78,14 @@ def signup():
         return render_template('signup.html', form = form)
 
 
-@app.route("/welcome", methods = ["GET"])
+@app.route("/welcome", methods = ["GET", "POST"])
 @login_required
-def welcome():
-    return render_template("welcome.html", user = current_user.username)
+def welcome(input_field=""):
+    if request.method == "POST":
+        input_field = request.json['data']
+        print(input_field)
+        return "<h1>Data Passed</h1>"
+    return render_template("welcome.html", user = current_user.username, movies = input_movies, mid = movie_id)
 
 @app.route("/logout", methods = ["GET"])
 @login_required
