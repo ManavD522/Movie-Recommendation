@@ -130,6 +130,8 @@ def signup():
         try: 
             db.session.add(new_user)
             db.session.commit()
+
+            login_user(new_user, remember=True)
         except:
             pass
         return redirect(url_for('welcome'))
@@ -148,12 +150,7 @@ def welcome(input_field=""):
 
         output = get_recommendations(mids, ratings)
         session['movies'], session['ratings'], session['genres'] = json.dumps(output["movies"]), json.dumps(str(output["ratings"])), json.dumps(output["genres"]), 
-        print(output)
-        print(type(output))
-        print(type(output["movies"]))
-        print(type(output["ratings"]))
-        print(type(output["genres"]))
-        return redirect(url_for("result"))
+        return "Got recommendations"
     return render_template("welcome.html", user = current_user.username, movies = input_movies, mid = movie_id)
 
 @app.route("/logout", methods = ["GET"])
@@ -162,13 +159,14 @@ def logout():
     logout_user()
     return redirect(url_for("signup"))
 
-@app.route("/result")
+@app.route("/result", methods = ["GET"])
 def result():
     movies = json.loads(session["movies"])
     ratings = json.loads(session["ratings"])
     ratings = ratings[1:len(ratings) -1].replace(",", "")
     ratings = list(map(float, ratings.split())) 
     genres = json.loads(session["genres"])
+    genres = [" | ".join(genre.split("|")) for genre in genres]
     return render_template("result.html", movies = movies, ratings = ratings, genres = genres)
 
 if __name__ == "__main__":

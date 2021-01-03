@@ -30,10 +30,11 @@ document.querySelector(".submit").addEventListener('click', () => {
         $.ajax({
             type: "POST",
             url: '/welcome',
-            dataType: false,
+            dataType: "text",
             contentype: "application/json",
             data: JSON.stringify({"movie_ids" : input, "ratings" : rating}),
-            success: function () {
+            success: function (data) {
+                window.location.href = "http://localhost:5000/result"
             }
         })
     }
