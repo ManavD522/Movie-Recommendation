@@ -31,27 +31,31 @@
     </div>
 
     <div>
+        {% set count = namespace(value = 0) %}
         {% for i in range(3) %}
         <div class = "recom-row align-center">
-            {% for i in range(3) %}
+            {% for j in range(3) %}
             <div class = "recom-field align-center">
                 <div class = "ratings">
                     <img src = "/static/assets/star.svg" class = "star" />
-                    <span class = "rating-num">4.3</span>
+                    <span class = "rating-num">{{ ratings[count.value] }}</span>
                 </div>
                 <div class = "movie-info">
-                    <span class = "movie-name">Movie</span>
-                    <span class = "movie-genre">GENRE 1</span>
+                    <span class = "movie-name">{{ movies[count.value] }}</span>
+                    <span class = "movie-genre">{{ genres[count.value] }}</span>
                 </div>
             </div>
+            {% set count.value = count.value + 1 %}
             {% endfor %}
         </div>
         {% endfor %}
     </div>
 
+    <a href = "{{ url_for('welcome') }}" style="text-decoration: none;">
     <div class = "align-center" style="margin: 3rem 0;">
         <div class = "back align-center">
             <span class = "back-text">GO BACK</span>
         </div>
     </div>
+    </a>
 {% endblock %}

@@ -1,4 +1,6 @@
 let input = []
+let rating = []
+
 document.querySelectorAll('#input-btn').forEach(btn => {
     btn.addEventListener('click', event => {
         let input_text = btn.childNodes[1]
@@ -22,14 +24,16 @@ document.querySelectorAll('#input-btn').forEach(btn => {
 
 document.querySelector(".submit").addEventListener('click', () => {
     if(input.length >= 8) {
+        for(let i = 0; i < input.length; i++){
+            rating.push((Math.random() * (5 - 3.5) + 3.5).toFixed(1))
+        }
         $.ajax({
             type: "POST",
             url: '/welcome',
             dataType: false,
             contentype: "application/json",
-            data: JSON.stringify(input),
+            data: JSON.stringify({"movie_ids" : input, "ratings" : rating}),
             success: function () {
-                alert("Thanks!"); 
             }
         })
     }

@@ -1,6 +1,10 @@
 import warnings
 import json
-from flask import Flask, url_for, request, redirect, render_template
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+from tensorflow.keras.models import load_model
+from flask import Flask, url_for, request, redirect, render_template, session
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
@@ -22,6 +26,62 @@ login_manager.login_view = "login"
 
 input_movies = ["TERMINATOR 3", "BAD BOYS II", "CHRONICLES OF THE NARNIA", "S.W.A.T.", "35 UP", "JOHNY ENGLISH", "KUNG FU PANDA", "PULP FICTION", "HARRY POTTER", "BABY'S DAY OUT", "COBRA", "THE PRESTIGE", "HAPPT FEET", "DELHI BELLY", "CARS 2", "THE SMURFS", "THE AVENGERS", "ENGLISH VINGLISH", "TAKEN", "PARANORMAL ACTIVITY", "WOLVERINE", "LONE RANGER", "THE HOBBIT", "FINAL DESTINATION"]
 movie_id = [6537, 6548, 41566, 6595, 26712, 6550, 59784, 296, 4896, 5096, 6800, 48780, 49274, 88069, 87876, 88356, 122912, 99636, 96861, 97701, 103772, 103384, 106489, 71252]
+
+ratings_data = pd.read_csv("./training_data/ratings.csv")
+
+user_ids = list(ratings_data.userId.unique())
+user_to_encoded = {value : index for index, value in enumerate(user_ids)}
+encoded_to_user = {index : value for index, value in enumerate(user_ids)}
+
+movie_ids = list(ratings_data.movieId.unique())
+movie_to_encoded = {value : index for index, value in enumerate(movie_ids)}
+encoded_to_movie = {index : value for index, value in enumerate(movie_ids)}
+
+ratings_data["user"] = ratings_data.userId.map(user_to_encoded)
+ratings_data["movie"] = ratings_data.movieId.map(movie_to_encoded)
+ratings_data.rating = ratings_data.rating.values.astype(np.float32)
+
+def format_output(movies, ratings):
+    count = 0
+    m, g, r, output = [], [], [], {}
+    for movie in movies.itertuples():
+        m.append(movie.title)
+        r.append(round(ratings[count], 1))
+        g.append(movie.genres)
+        count += 1
+
+    return {"movies" : m, "ratings" : r, "genres" : g}
+
+def get_recommendation(mids, ratings):
+    model = load_model("./recommendation-model/collaborative-filtering-recommendation-system.h5")
+    movie_df = pd.read_csv("./training_data/movies.csv")
+
+    user_id = ratings_data.userId.sample(1).iloc[0]
+    for i in range(len(mids)):
+        movies_watched_by_user = movies_watched_by_user.append({"userId": user_id, "movieId": mids[i], "rating": ratings[i], "user": user_to_encoded[user_id], "movie": movie_to_encoded[mids[i]]}, ignore_index = True)
+
+    for column in list(movies_watched_by_user):
+        if column != "rating":
+            movies_watched_by_user[column] = movies_watched_by_user[column].astype(int)
+
+    movies_watched_by_user = ratings_data[ratings_data.userId == user_id]
+    movies_not_watched = movie_df[~movie_df["movieId"].isin(movies_watched_by_user.movieId.values)]["movieId"]
+    movies_not_watched = list(set(movies_not_watched).intersection(set(movie_to_encoded.keys())))
+    movies_not_watched = [[movie_to_encoded.get(x)] for x in movies_not_watched]
+
+    user_encoder = user_to_encoded.get(user_id)
+    user_movie_array = np.hstack(([[user_encoder]] * len(movies_not_watched), movies_not_watched))
+
+    ratings = model.predict([user_movie_array[:, 1], user_movie_array[:, 0]]).flatten()
+
+    top_ratings_indices = ratings.argsort()[-10:][::-1]
+    rat_norm = ratings[top_ratings_indices]
+    rating_denorm = rat_norm * (5.0 - 0.5) + 0.5
+    recommended_movie_ids = [encoded_to_movie.get(movies_not_watched[x][0]) for x in top_ratings_indices]
+
+    recommended_movies = movie_df[movie_df["movieId"].isin(recommended_movie_ids)]
+    recommendations = format_output(recommended_movies, rating_denorm)
+    return recommendations    
 
 class Login(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -72,7 +132,6 @@ def signup():
         except:
             pass
         return redirect(url_for('welcome'))
-        # return '<h1>New user has  been created!</h1>'
 
     if request.method == "GET":
         return render_template('signup.html', form = form)
@@ -82,9 +141,14 @@ def signup():
 @login_required
 def welcome(input_field=""):
     if request.method == "POST":
-        input_field = request.json['data']
-        print(input_field)
-        return "<h1>Data Passed</h1>"
+        input_field = json.loads(request.get_data())
+        mids = list(map(int, input_field["movie_ids"])) 
+        ratings = list(map(float, input_field["ratings"]))
+
+        output = get_recommendations(mids, ratings)
+        session['movies'], session['ratings'], session['genres'] = output["movies"], output["ratings"], output["genres"], 
+
+        return redirect(url_for("result"))
     return render_template("welcome.html", user = current_user.username, movies = input_movies, mid = movie_id)
 
 @app.route("/logout", methods = ["GET"])
@@ -95,7 +159,13 @@ def logout():
 
 @app.route("/result")
 def result():
-    return render_template("result.html")
+    try:
+        movies = session["movies"]
+        ratings = session["movies"]
+        genres = session["movies"]
+    except:
+        pass
+    return render_template("result.html", movies = movies, ratings = ratings, genres = genres)
 
 if __name__ == "__main__":
     app.run(debug=True)
