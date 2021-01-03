@@ -52,11 +52,13 @@ def format_output(movies, ratings):
 
     return {"movies" : m, "ratings" : r, "genres" : g}
 
-def get_recommendation(mids, ratings):
+def get_recommendations(mids, ratings):
     model = load_model("./recommendation-model/collaborative-filtering-recommendation-system.h5")
     movie_df = pd.read_csv("./training_data/movies.csv")
 
     user_id = ratings_data.userId.sample(1).iloc[0]
+    movies_watched_by_user = ratings_data[ratings_data.userId == user_id]
+    movies_watched_by_user.drop("timestamp", axis = 1, inplace = True)
     for i in range(len(mids)):
         movies_watched_by_user = movies_watched_by_user.append({"userId": user_id, "movieId": mids[i], "rating": ratings[i], "user": user_to_encoded[user_id], "movie": movie_to_encoded[mids[i]]}, ignore_index = True)
 
@@ -64,7 +66,6 @@ def get_recommendation(mids, ratings):
         if column != "rating":
             movies_watched_by_user[column] = movies_watched_by_user[column].astype(int)
 
-    movies_watched_by_user = ratings_data[ratings_data.userId == user_id]
     movies_not_watched = movie_df[~movie_df["movieId"].isin(movies_watched_by_user.movieId.values)]["movieId"]
     movies_not_watched = list(set(movies_not_watched).intersection(set(movie_to_encoded.keys())))
     movies_not_watched = [[movie_to_encoded.get(x)] for x in movies_not_watched]
@@ -81,7 +82,7 @@ def get_recommendation(mids, ratings):
 
     recommended_movies = movie_df[movie_df["movieId"].isin(recommended_movie_ids)]
     recommendations = format_output(recommended_movies, rating_denorm)
-    return recommendations    
+    return recommendations
 
 class Login(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -146,8 +147,12 @@ def welcome(input_field=""):
         ratings = list(map(float, input_field["ratings"]))
 
         output = get_recommendations(mids, ratings)
-        session['movies'], session['ratings'], session['genres'] = output["movies"], output["ratings"], output["genres"], 
-
+        session['movies'], session['ratings'], session['genres'] = json.dumps(output["movies"]), json.dumps(str(output["ratings"])), json.dumps(output["genres"]), 
+        print(output)
+        print(type(output))
+        print(type(output["movies"]))
+        print(type(output["ratings"]))
+        print(type(output["genres"]))
         return redirect(url_for("result"))
     return render_template("welcome.html", user = current_user.username, movies = input_movies, mid = movie_id)
 
@@ -159,12 +164,11 @@ def logout():
 
 @app.route("/result")
 def result():
-    try:
-        movies = session["movies"]
-        ratings = session["movies"]
-        genres = session["movies"]
-    except:
-        pass
+    movies = json.loads(session["movies"])
+    ratings = json.loads(session["ratings"])
+    ratings = ratings[1:len(ratings) -1].replace(",", "")
+    ratings = list(map(float, ratings.split())) 
+    genres = json.loads(session["genres"])
     return render_template("result.html", movies = movies, ratings = ratings, genres = genres)
 
 if __name__ == "__main__":
